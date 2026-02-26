@@ -55,7 +55,7 @@ Create environment:
 conda env create -f env/environment.yml
 conda activate mt_pipeline
 
-## Running the Pipeline
+**## Running the Pipeline**
 sbatch scripts/mt_pipeline.slurm.sh
 
 ### Main analysis branch (per sample)
