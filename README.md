@@ -41,4 +41,18 @@ Typical avian mitochondrial genome (~16.8 kb):
 ### 1) `sample_list.txt` (must be in repo root)
 Each line: `SAMPLE_ID  READ1.fastq.gz  READ2.fastq.gz`
 
+### 2) Reference files (must be in `reference/`)
+- `reference/NC_041257.fa` (FASTA reference for mapping + consensus)
+- `reference/NC_041257.gb` (GenBank file used to parse CDS coordinates + guide MitoFinder)
+
+---
+
+## ⚙️ Installation (Conda)
+
+Create environment:
+
+```bash
+conda env create -f env/environment.yml
+conda activate mt_pipeline
+
 ### Main analysis branch (per sample)
