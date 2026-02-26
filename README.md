@@ -1,4 +1,4 @@
-# 🧬 Avian mtDNA Mitofinder Pipeline
+#  Avian mtDNA Mitofinder Pipeline
 
 A SLURM-parallelized mitochondrial genome analysis pipeline for birds integrating:
 
@@ -12,7 +12,7 @@ Designed for reproducible execution on HPC systems.
 
 ---
 
-## 🧬 Avian Mitochondrial Genome Ideogram
+## Avian Mitochondrial Genome Ideogram
 
 <p align="center">
   <img src="docs/avian_mtDNA_ideogram.png" width="500">
@@ -28,7 +28,7 @@ Typical avian mitochondrial genome (~16.8 kb):
 
 ---
 
-## 🔬 Pipeline Workflow
+##  Pipeline Workflow
 
 <p align="center">
   <img src="docs/pipeline_workflow.png" width="750">
