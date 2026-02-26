@@ -1,6 +1,6 @@
-#  Avian mtDNA Mitofinder Pipeline
+# 🧬 Avian mtDNA Mitofinder Pipeline
 
-A SLURM-parallelized mitochondrial genome analysis pipeline for birds that integrates:
+A SLURM-parallelized mitochondrial genome analysis pipeline for birds integrating:
 
 - Read mapping (BWA MEM)
 - Variant calling in haploid mode (BCFtools)
@@ -12,7 +12,7 @@ Designed for reproducible execution on HPC systems.
 
 ---
 
-##  Avian Mitochondrial Genome Ideogram
+## 🧬 Avian Mitochondrial Genome Ideogram
 
 <p align="center">
   <img src="docs/avian_mtDNA_ideogram.png" width="500">
@@ -28,6 +28,10 @@ Typical avian mitochondrial genome (~16.8 kb):
 
 ---
 
-##  Pipeline Workflow
+## 🔬 Pipeline Workflow
+
+<p align="center">
+  <img src="docs/pipeline_workflow.png" width="750">
+</p>
 
 ### Main analysis branch (per sample)
