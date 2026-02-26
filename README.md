@@ -34,14 +34,11 @@ Typical avian mitochondrial genome (~16.8 kb):
   <img src="docs/pipeline_workflow.png" width="750">
 </p>
 
-
 ---
 
 ## Inputs
 
 ### 1) `sample_list.txt` (must be in repo root)
 Each line: `SAMPLE_ID  READ1.fastq.gz  READ2.fastq.gz`
-
-Example:
 
 ### Main analysis branch (per sample)
