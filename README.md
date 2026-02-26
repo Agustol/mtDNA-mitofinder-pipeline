@@ -63,7 +63,7 @@ title: "MitoFinder Standalone Installation (GitHub)"
 output: html_document
 ---
 
-# MitoFinder Standalone Installation
+## MitoFinder Standalone Installation
 
 This document installs the official standalone version of **MitoFinder**
 directly from GitHub. This method is recommended when the Conda package
