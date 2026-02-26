@@ -31,6 +31,14 @@ conda activate "$CONDA_ENV"
 module load Java
 
 ############################################
+# CONVERT GLOBAL PATHS TO ABSOLUTE
+############################################
+SAMPLE_LIST=$(realpath "$SAMPLE_LIST")
+REF=$(realpath "$REF")
+REFGB=$(realpath "$REFGB")
+OUTDIR=$(realpath -m "$OUTDIR")
+
+############################################
 # PREP
 ############################################
 mkdir -p "$OUTDIR"
@@ -39,7 +47,7 @@ mkdir -p "$OUTDIR"
 [[ -f "${REF}.fai" ]] || samtools faidx "$REF"
 
 ############################################
-# BUILD CDS BED (FIXED)
+# BUILD CDS BED
 ############################################
 CHROM=$(grep "^>" "$REF" | sed 's/>//' | awk '{print $1}')
 
@@ -68,18 +76,21 @@ awk -v chrom="$CHROM" '
 process_one() {
 
     SAMPLE="$1"
-    READ1="$2"
-    READ2="$3"
+    READ1=$(realpath "$2")
+    READ2=$(realpath "$3")
 
     echo "Processing $SAMPLE"
 
-    mkdir -p "$OUTDIR/$SAMPLE"/{bam,vcf,consensus,genes}
+    mkdir -p "$OUTDIR/$SAMPLE"/{bam,vcf,consensus,genes,mitofinder}
 
     BAM="$OUTDIR/$SAMPLE/bam/$SAMPLE.sorted.bam"
     MAPPED="$OUTDIR/$SAMPLE/bam/$SAMPLE.mapped.bam"
     VCF="$OUTDIR/$SAMPLE/vcf/$SAMPLE.vcf.gz"
     CONS="$OUTDIR/$SAMPLE/consensus/${SAMPLE}_mt.fasta"
 
+    ########################################
+    # Mapping
+    ########################################
     bwa mem -t "$THREADS" "$REF" "$READ1" "$READ2" \
         | samtools view -b - \
         | samtools sort -@ "$THREADS" -o "$BAM" -
@@ -89,6 +100,9 @@ process_one() {
     samtools view -b -F 4 "$BAM" > "$MAPPED"
     samtools index "$MAPPED"
 
+    ########################################
+    # Variant Calling (mtDNA ploidy=1)
+    ########################################
     bcftools mpileup -f "$REF" "$MAPPED" -Ou \
         | bcftools call -mv --ploidy 1 -Oz -o "$VCF"
 
@@ -96,24 +110,27 @@ process_one() {
 
     bcftools consensus -f "$REF" "$VCF" > "$CONS"
 
+    ########################################
+    # Extract CDS
+    ########################################
     bedtools getfasta \
         -fi "$CONS" \
         -bed "$OUTDIR/cds_coords.bed" \
         -s \
         -fo "$OUTDIR/$SAMPLE/genes/${SAMPLE}_cds.fasta"
 
-    cd "$OUTDIR/$SAMPLE"
-
-    mitofinder \
+    ########################################
+    # Run MitoFinder
+    ########################################
+    /home/aluzuriaganeira/mendel-nas1/software/MitoFinder/mitofinder \
         -j "$SAMPLE" \
         -1 "$READ1" \
         -2 "$READ2" \
         -r "$REFGB" \
         -o 2 \
         -p "$THREADS" \
-        --metaspades
-
-    cd - > /dev/null
+        --metaspades \
+        --outdir "$OUTDIR/$SAMPLE/mitofinder"
 
     echo "[$SAMPLE] DONE"
 }
@@ -128,7 +145,6 @@ while read SAMPLE READ1 READ2; do
 
     process_one "$SAMPLE" "$READ1" "$READ2" &
 
-    # Limit number of concurrent jobs
     while [[ $(jobs -r | wc -l) -ge $N_JOBS ]]; do
         sleep 2
     done
