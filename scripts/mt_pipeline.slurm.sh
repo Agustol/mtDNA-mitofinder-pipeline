@@ -28,6 +28,7 @@ THREADS=$(( TOTAL_CPUS / N_JOBS ))
 ############################################
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate "$CONDA_ENV"
+module load Java
 
 ############################################
 # PREP
