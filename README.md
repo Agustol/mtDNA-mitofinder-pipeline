@@ -77,7 +77,7 @@ Run the following commands in a terminal:
 
 ```bash
 # Activate (or create) environment
-conda activate mt_pipeline || conda create -n mt_pipeline python=3.10 -y && conda activate mt_pipeline
+conda activate mt_pipeline 
 
 # Clone official repository
 git clone https://github.com/RemiAllio/MitoFinder.git
