@@ -58,4 +58,34 @@ conda activate mt_pipeline
 **Running the Pipeline**
 sbatch scripts/mt_pipeline.slurm.sh
 
-### Main analysis branch (per sample)
+## References
+
+1. **BWA**  
+   Li H, Durbin R. (2009).  
+   Fast and accurate short read alignment with Burrows–Wheeler transform.  
+   *Bioinformatics* 25(14):1754–1760.  
+   https://doi.org/10.1093/bioinformatics/btp324  
+
+2. **SAMtools / BCFtools**  
+   Danecek P, Bonfield JK, Liddle J, et al. (2021).  
+   Twelve years of SAMtools and BCFtools.  
+   *GigaScience* 10(2):giab008.  
+   https://doi.org/10.1093/gigascience/giab008  
+
+3. **BEDTools**  
+   Quinlan AR, Hall IM. (2010).  
+   BEDTools: a flexible suite of utilities for comparing genomic features.  
+   *Bioinformatics* 26(6):841–842.  
+   https://doi.org/10.1093/bioinformatics/btq033  
+
+4. **MitoFinder**  
+   Allio R, Schomaker-Bastos A, Romiguier J, Prosdocimi F, Nabholz B, Delsuc F. (2020).  
+   MitoFinder: Efficient automated large-scale extraction of mitogenomic data.  
+   *Molecular Ecology Resources* 20(4):892–905.  
+   https://doi.org/10.1111/1755-0998.13160  
+
+5. **SPAdes**  
+   Bankevich A, Nurk S, Antipov D, et al. (2012).  
+   SPAdes: A New Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing.  
+   *Journal of Computational Biology* 19(5):455–477.  
+   https://doi.org/10.1089/cmb.2012.0021
