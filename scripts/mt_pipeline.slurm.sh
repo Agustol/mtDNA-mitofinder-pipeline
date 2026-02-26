@@ -31,7 +31,7 @@ conda activate "$CONDA_ENV"
 module load Java
 
 ############################################
-# CONVERT GLOBAL PATHS TO ABSOLUTE
+# MAKE GLOBAL PATHS ABSOLUTE (FIX)
 ############################################
 SAMPLE_LIST=$(realpath "$SAMPLE_LIST")
 REF=$(realpath "$REF")
@@ -76,21 +76,20 @@ awk -v chrom="$CHROM" '
 process_one() {
 
     SAMPLE="$1"
+
+    # FIX: make FASTQ paths absolute so cd doesn't break them
     READ1=$(realpath "$2")
     READ2=$(realpath "$3")
 
     echo "Processing $SAMPLE"
 
-    mkdir -p "$OUTDIR/$SAMPLE"/{bam,vcf,consensus,genes,mitofinder}
+    mkdir -p "$OUTDIR/$SAMPLE"/{bam,vcf,consensus,genes}
 
     BAM="$OUTDIR/$SAMPLE/bam/$SAMPLE.sorted.bam"
     MAPPED="$OUTDIR/$SAMPLE/bam/$SAMPLE.mapped.bam"
     VCF="$OUTDIR/$SAMPLE/vcf/$SAMPLE.vcf.gz"
     CONS="$OUTDIR/$SAMPLE/consensus/${SAMPLE}_mt.fasta"
 
-    ########################################
-    # Mapping
-    ########################################
     bwa mem -t "$THREADS" "$REF" "$READ1" "$READ2" \
         | samtools view -b - \
         | samtools sort -@ "$THREADS" -o "$BAM" -
@@ -100,9 +99,6 @@ process_one() {
     samtools view -b -F 4 "$BAM" > "$MAPPED"
     samtools index "$MAPPED"
 
-    ########################################
-    # Variant Calling (mtDNA ploidy=1)
-    ########################################
     bcftools mpileup -f "$REF" "$MAPPED" -Ou \
         | bcftools call -mv --ploidy 1 -Oz -o "$VCF"
 
@@ -110,18 +106,15 @@ process_one() {
 
     bcftools consensus -f "$REF" "$VCF" > "$CONS"
 
-    ########################################
-    # Extract CDS
-    ########################################
     bedtools getfasta \
         -fi "$CONS" \
         -bed "$OUTDIR/cds_coords.bed" \
         -s \
         -fo "$OUTDIR/$SAMPLE/genes/${SAMPLE}_cds.fasta"
 
-    ########################################
-    # Run MitoFinder
-    ########################################
+    # Keep this cd: MitoFinder writes ./JOBNAME by design
+    cd "$OUTDIR/$SAMPLE"
+
     /home/aluzuriaganeira/mendel-nas1/software/MitoFinder/mitofinder \
         -j "$SAMPLE" \
         -1 "$READ1" \
@@ -129,8 +122,9 @@ process_one() {
         -r "$REFGB" \
         -o 2 \
         -p "$THREADS" \
-        --metaspades \
-        --outdir "$OUTDIR/$SAMPLE/mitofinder"
+        --metaspades
+
+    cd - > /dev/null
 
     echo "[$SAMPLE] DONE"
 }
@@ -141,7 +135,7 @@ export REF REFGB OUTDIR THREADS
 ############################################
 # PARALLEL LOOP
 ############################################
-while read SAMPLE READ1 READ2; do
+while read -r SAMPLE READ1 READ2; do
 
     process_one "$SAMPLE" "$READ1" "$READ2" &
 
@@ -152,5 +146,4 @@ while read SAMPLE READ1 READ2; do
 done < "$SAMPLE_LIST"
 
 wait
-
 echo "ALL SAMPLES COMPLETE"
