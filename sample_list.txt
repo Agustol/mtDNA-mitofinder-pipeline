@@ -1,0 +1,2 @@
+BIRD001 reads/BIRD001_R1.fastq.gz reads/BIRD001_R2.fastq.gz
+BIRD002 reads/BIRD002_R1.fastq.gz reads/BIRD002_R2.fastq.gz
