@@ -58,6 +58,48 @@ conda activate mt_pipeline
 **Running the Pipeline**
 sbatch scripts/mt_pipeline.slurm.sh
 
+---
+title: "MitoFinder Standalone Installation (GitHub)"
+output: html_document
+---
+
+# MitoFinder Standalone Installation
+
+This document installs the official standalone version of **MitoFinder**
+directly from GitHub. This method is recommended when the Conda package
+fails or causes compatibility issues on HPC systems.
+
+---
+
+## Installation Procedure
+
+Run the following commands in a terminal:
+
+```bash
+# Activate (or create) environment
+conda activate mt_pipeline || conda create -n mt_pipeline python=3.10 -y && conda activate mt_pipeline
+
+# Clone official repository
+git clone https://github.com/RemiAllio/MitoFinder.git
+
+# Enter repository
+cd MitoFinder
+
+# Run bundled installer
+chmod +x install.sh
+./install.sh
+
+# Export repository directory to PATH
+export PATH=$(pwd):$PATH
+
+# Make PATH permanent
+echo "export PATH=$(pwd):\$PATH" >> ~/.bashrc
+source ~/.bashrc
+
+# Verify installation
+which mitofinder
+mitofinder --version
+
 ## References
 
 1. **BWA**  
