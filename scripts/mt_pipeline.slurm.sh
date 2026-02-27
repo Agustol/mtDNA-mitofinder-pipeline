@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=mt_pipeline
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=32G
+#SBATCH --mem=120G
 #SBATCH --time=48:00:00
 #SBATCH --output=mt_pipeline.%j.out
 #SBATCH --error=mt_pipeline.%j.err
