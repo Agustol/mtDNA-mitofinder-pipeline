@@ -5,10 +5,9 @@ channels:
   - defaults
 
 dependencies:
-  - python=3.10
+  - python=2.7
   - bwa=0.7.17
   - samtools=1.23
   - bcftools=1.23
   - bedtools=2.31.1
-  - mitofinder=1.4.2
   - spades
