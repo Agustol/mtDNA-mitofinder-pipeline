@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=mt_pipeline
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=120G
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=400G
 #SBATCH --time=48:00:00
 #SBATCH --output=mt_pipeline.%j.out
 #SBATCH --error=mt_pipeline.%j.err
@@ -19,7 +19,7 @@ REFGB="reference/NC_041257.gb"
 OUTDIR="results"
 
 TOTAL_CPUS=${SLURM_CPUS_PER_TASK:-16}
-N_JOBS=4
+N_JOBS=2
 THREADS=$(( TOTAL_CPUS / N_JOBS ))
 [[ "$THREADS" -lt 1 ]] && THREADS=1
 
