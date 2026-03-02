@@ -122,8 +122,7 @@ process_one() {
         -r "$REFGB" \
         -o 2 \
         -p "$THREADS" \
-        --metaspades
-
+        
     cd - > /dev/null
 
     echo "[$SAMPLE] DONE"
