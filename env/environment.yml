@@ -1,17 +1,17 @@
 name: mt_pipeline
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
-  - python=3.9
+  - python=2.7
   - mitofinder=1.4.1
-  - mafft
-  - bwa
-  - samtools
-  - bcftools
-  - blast
-  - spades
+  - blast=2.15.0
+  - bwa=0.7.17
+  - samtools=1.19
+  - bcftools=1.19
+  - bedtools=2.31.1
+  - spades=3.15.5
   - megahit
+  - idba
   - trnascan-se
-  - arwen
