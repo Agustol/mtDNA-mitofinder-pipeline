@@ -1,4 +1,4 @@
-name: mt_pipeline2
+name: mt_pipeline
 channels:
   - bioconda
   - conda-forge
